@@ -3,9 +3,11 @@ package top.sdaily.core.web.spring.interceptor;
 import com.alibaba.fastjson.JSON;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.UrlPathHelper;
 import top.sdaily.core.web.context.SessionUser;
 import top.sdaily.core.web.exception.FailedException;
 
@@ -20,22 +22,41 @@ import java.util.concurrent.TimeUnit;
 public class SecurityInterceptor implements HandlerInterceptor {
 
     private StringRedisTemplate stringRedisTemplate;
+    private ApplicationContext applicationContext;
+    private final AntPathMatcher antPathMatcher = new AntPathMatcher();
+    private UrlPathHelper urlPathHelper = new UrlPathHelper();//URL匹配工具
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
 
-        HashSet<String> noAuthPath = new HashSet<String>();
-        noAuthPath.add("/login");
+        //=================================
+        // 使用 AntPathMatcher 进行匹配，可使用表达
+        // 可过滤method 第二个参数为 Method Name
+        //=================================
+        HashSet<String[]> noAuthPath = new HashSet<String[]>();
+        noAuthPath.add(new String[]{"/login"});
+        noAuthPath.add(new String[]{"/token/{token}"});
 
-        if(noAuthPath.contains(httpServletRequest.getRequestURI())){
-            return true;
+        String lookupPathForRequest = urlPathHelper.getLookupPathForRequest(httpServletRequest);
+        for(String[] path : noAuthPath) {
+            if(antPathMatcher.match(path[0],lookupPathForRequest)){
+                if(path.length > 1){
+                    if(path[1].equalsIgnoreCase(httpServletRequest.getMethod())){
+                        return true;
+                    }
+                }else{
+                    return true;
+                }
+            }
         }
 
         String token = httpServletRequest.getHeader("Access-Token");
         System.out.println("preHandle entry ......" + token);
 
+        if(applicationContext == null)
+            applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(httpServletRequest.getServletContext());
+
         if(stringRedisTemplate == null) {
-            ApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(httpServletRequest.getServletContext());
             stringRedisTemplate = (StringRedisTemplate) applicationContext.getBean("stringRedisTemplate");
         }
 

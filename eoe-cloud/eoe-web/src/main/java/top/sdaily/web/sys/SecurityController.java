@@ -6,9 +6,9 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.spring.web.json.Json;
 import top.sdaily.core.utils.IdGeneratorUtil;
 import top.sdaily.core.web.ReturnBody;
 import top.sdaily.core.web.context.SessionUser;
@@ -74,6 +74,17 @@ public class SecurityController {
         //========================
         stringRedisTemplate.expire(sessionUser.getToken(),30, TimeUnit.MINUTES);
 
+        return ReturnBody.success().setData(sessionUser);
+    }
+
+    @ApiOperation(value="验证token", notes="验证token")
+    @GetMapping("token/{token}")
+    public ReturnBody validToken(@ApiParam(required = true,name = "token") @PathVariable String token){
+        String jsonString = stringRedisTemplate.opsForValue().get(token);
+        SessionUser sessionUser = null;
+        if(!StringUtils.isEmpty(jsonString)) {
+            sessionUser = JSON.parseObject(stringRedisTemplate.opsForValue().get(token), SessionUser.class);
+        }
         return ReturnBody.success().setData(sessionUser);
     }
 
