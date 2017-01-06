@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 import top.sdaily.core.web.exception.FailedException;
+import top.sdaily.core.web.exception.InvalidTokenException;
 
 /**
  * Created by soya on 2016/10/29.
@@ -20,6 +21,8 @@ public class ExceptionController {
     public ReturnBody exceptionHandler(WebRequest request, Exception e){
         if(e instanceof FailedException){
             return ReturnBody.failed().setMsg(e.getMessage());
+        }else if(e instanceof InvalidTokenException){
+            return ReturnBody.invalidToken();
         }else {
             log.error("系统出现异常:", e);
             return ReturnBody.error().setMsg(e.getMessage());

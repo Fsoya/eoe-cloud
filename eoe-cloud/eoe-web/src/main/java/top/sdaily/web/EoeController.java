@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.sdaily.core.mybatis.Page;
+import top.sdaily.core.web.context.SessionUser;
 import top.sdaily.model.SysUser;
 import top.sdaily.service.SysUserService;
 
@@ -47,8 +48,8 @@ public class EoeController {
             @ApiImplicitParam(paramType = "query",name = "pageNo",value = "页数",required = true),
             @ApiImplicitParam(paramType = "query",name = "pageSize",value = "每页记录数,默认15条",required = false)})
     @RequestMapping(value = "mybatis/sysuser/page",method = RequestMethod.GET)
-    public Page<SysUser> callMyBatisWithPage(int pageNo, Integer pageSize){
-        Page page = new Page(pageNo,pageSize);
+    public Page<SysUser> callMyBatisWithPage(Page page, SessionUser sessionUser){
+        System.out.println(sessionUser.getToken());
         return sysUserService.getPage(page);
     }
 
@@ -62,8 +63,9 @@ public class EoeController {
 
     @ApiOperation(value="测试mybatis", notes="单条插入")
     @RequestMapping(value = "mybatis/sysuser",method = RequestMethod.POST)
-    public int callMyBatisWithAdd(@ApiParam(required = true,name = "sysUser") @RequestBody SysUser sysUser){
-        return sysUserService.addNew(sysUser);
+    public SysUser callMyBatisWithAdd(@ApiParam(required = true,name = "sysUser") @RequestBody SysUser sysUser){
+        sysUserService.addNew(sysUser);
+        return sysUser;
     }
 
     @ApiOperation(value="测试mybatis", notes="批量增加")

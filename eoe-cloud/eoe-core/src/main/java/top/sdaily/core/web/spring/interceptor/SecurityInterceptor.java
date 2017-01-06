@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UrlPathHelper;
 import top.sdaily.core.web.context.SessionUser;
 import top.sdaily.core.web.exception.FailedException;
+import top.sdaily.core.web.exception.InvalidTokenException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,7 +52,10 @@ public class SecurityInterceptor implements HandlerInterceptor {
         }
 
         String token = httpServletRequest.getHeader("Access-Token");
-        System.out.println("preHandle entry ......" + token);
+
+        if(token == null){
+            throw new InvalidTokenException();
+        }
 
         if(applicationContext == null)
             applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(httpServletRequest.getServletContext());
@@ -63,7 +67,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
         SessionUser user = JSON.parseObject(stringRedisTemplate.opsForValue().get(token),SessionUser.class);
 
         if(user == null) {
-            throw new FailedException("token过期，请重新登录");
+            throw new InvalidTokenException();
         }
 
         //========================

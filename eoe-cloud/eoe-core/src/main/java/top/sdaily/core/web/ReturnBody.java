@@ -46,4 +46,9 @@ public class ReturnBody {
     public static ReturnBody error(){
         return new ReturnBody().setStatus(3003);
     }
+
+    public static ReturnBody invalidToken(){
+        return new ReturnBody().setStatus(4001).setMsg("Access-Token 无效或不存在");
+    }
+
 }

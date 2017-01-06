@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
+import top.sdaily.core.utils.IdGeneratorUtil;
 import top.sdaily.core.web.exception.FailedException;
 import top.sdaily.core.mybatis.Conditions;
 import top.sdaily.core.mybatis.Page;
