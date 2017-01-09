@@ -13,10 +13,10 @@ import java.util.Date;
  * Created by soya on 2016/11/1.
  */
 @Table(name = "sys_user")
-public class SysUser implements Serializable {
+public class User implements Serializable {
 
     @Id
-    private String id;
+    private String pkid;
 
     private String userName;
 
@@ -39,15 +39,12 @@ public class SysUser implements Serializable {
 
     private Integer admin;
 
-    @Transient
-    private String passport;
-
-    public String getId() {
-        return id;
+    public String getPkid() {
+        return pkid;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPkid(String pkid) {
+        this.pkid = pkid;
     }
 
     public String getUserName() {
@@ -104,14 +101,6 @@ public class SysUser implements Serializable {
 
     public void setAdmin(Integer admin) {
         this.admin = admin;
-    }
-
-    public String getPassport() {
-        return passport;
-    }
-
-    public void setPassport(String passport) {
-        this.passport = passport;
     }
 
     public String getMobilePhoneNumber() {

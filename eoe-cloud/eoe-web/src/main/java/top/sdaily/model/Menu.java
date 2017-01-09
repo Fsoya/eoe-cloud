@@ -13,11 +13,11 @@ import java.util.List;
 public class Menu {
 
     @Id
-    private String id;
+    private String pkid;
 
     private String name;
 
-    private String url;
+    private String path;
 
     @Column(name = "parent_id")
     private String parentId;
@@ -26,18 +26,19 @@ public class Menu {
 
     private Integer weight;
 
-    @Column(name = "is_show")
-    private Integer isShow;
+    private boolean show;
+
+    private String description;
 
     @Transient
     private List<Menu> subMenus;
 
-    public String getId() {
-        return id;
+    public String getPkid() {
+        return pkid;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPkid(String pkid) {
+        this.pkid = pkid;
     }
 
     public String getName() {
@@ -48,12 +49,12 @@ public class Menu {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
+    public String getPath() {
+        return path;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public String getParentId() {
@@ -80,12 +81,20 @@ public class Menu {
         this.weight = weight;
     }
 
-    public Integer getIsShow() {
-        return isShow;
+    public boolean getShow() {
+        return show;
     }
 
-    public void setIsShow(Integer isShow) {
-        this.isShow = isShow;
+    public void setShow(boolean show) {
+        this.show = show;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public List<Menu> getSubMenus() {

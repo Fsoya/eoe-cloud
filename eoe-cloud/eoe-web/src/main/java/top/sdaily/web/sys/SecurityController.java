@@ -4,16 +4,14 @@ import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.spring.web.json.Json;
 import top.sdaily.core.utils.IdGeneratorUtil;
 import top.sdaily.core.web.ReturnBody;
 import top.sdaily.core.web.context.SessionUser;
-import top.sdaily.model.SysUser;
-import top.sdaily.service.SysUserService;
+import top.sdaily.model.User;
+import top.sdaily.service.UserService;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -25,15 +23,15 @@ import java.util.concurrent.TimeUnit;
 public class SecurityController {
 
     @Autowired
-    SysUserService sysUserService;
+    UserService userService;
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
     @ApiOperation(value="密码账号登录", notes="密码账号登录")
     @PostMapping("login")
-    public ReturnBody login(@ApiParam(required = true,name = "sysUser") @RequestBody SysUser sysUser){
-        SysUser one = sysUserService.check(sysUser.getUserName(), sysUser.getPassword());
+    public ReturnBody login(@ApiParam(required = true,name = "user") @RequestBody User user){
+        User one = userService.check(user.getUserName(), user.getPassword());
         SessionUser sessionUser = new SessionUser();
         sessionUser.setToken(IdGeneratorUtil.fresh());
         sessionUser.setName(one.getUserName());
