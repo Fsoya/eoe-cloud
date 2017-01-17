@@ -9,8 +9,8 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.ServletWebArgumentResolverAdapter;
-import top.sdaily.core.web.spring.interceptor.SecurityInterceptor;
-import top.sdaily.core.web.spring.resolver.CustomerArgumentResolver;
+import top.sdaily.web.spring.interceptor.SecurityInterceptor;
+import top.sdaily.web.spring.resolver.CustomerArgumentResolver;
 
 import java.util.List;
 

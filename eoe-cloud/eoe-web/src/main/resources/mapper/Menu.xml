@@ -1,0 +1,10 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.sdaily.mapper.MenuMapper">
+
+    <select id="findUserMenus" parameterType="String" resultType="top.sdaily.web.dto.UserMenu">
+        select pkid,name,parent_id parentid,path,icon from sys_menu WHERE parent_id = #{parentId};
+    </select>
+
+</mapper>

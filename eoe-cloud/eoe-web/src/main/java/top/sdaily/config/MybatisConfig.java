@@ -43,7 +43,7 @@ public class MybatisConfig implements TransactionManagementConfigurer {
 
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        //bean.setTypeAliasesPackage("top.sdaily.model");
+        //bean.setTypeAliasesPackage("top.sdaily.web.model");
 
         //分页插件
         PageInterceptor pageInterceptor = new PageInterceptor();
