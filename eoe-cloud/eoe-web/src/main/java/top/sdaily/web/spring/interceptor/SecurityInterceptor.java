@@ -35,7 +35,11 @@ public class SecurityInterceptor implements HandlerInterceptor {
         //=================================
         HashSet<String[]> noAuthPath = new HashSet<String[]>();
         noAuthPath.add(new String[]{"/login"});
+        noAuthPath.add(new String[]{"/error"});
         noAuthPath.add(new String[]{"/token/{token}"});
+
+        noAuthPath.add(new String[]{"/swagger-resources/**"});
+        noAuthPath.add(new String[]{"/v2/api-docs"});
 
         String lookupPathForRequest = urlPathHelper.getLookupPathForRequest(httpServletRequest);
         for(String[] path : noAuthPath) {
