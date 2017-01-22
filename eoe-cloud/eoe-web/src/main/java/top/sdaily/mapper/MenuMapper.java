@@ -13,5 +13,7 @@ import java.util.List;
 @Mapper
 public interface MenuMapper extends BaseMapper<Menu> {
 
-    List<UserMenu> findUserMenus(String parentId);
+    List<UserMenu> findChildren(String parentId);
+
+    List<Menu> findTree();
 }

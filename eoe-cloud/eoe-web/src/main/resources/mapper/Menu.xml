@@ -3,8 +3,26 @@
 
 <mapper namespace="top.sdaily.mapper.MenuMapper">
 
-    <select id="findUserMenus" parameterType="String" resultType="top.sdaily.web.dto.UserMenu">
-        select pkid,name,parent_id parentid,path,icon from sys_menu WHERE parent_id = #{parentId};
+    <select id="findChildren" parameterType="String" resultType="top.sdaily.web.dto.UserMenu">
+        select pkid,name,parent_id parentid,path,icon,weight,description from sys_menu WHERE parent_id = #{parentId}
+    </select>
+
+    <resultMap type="top.sdaily.web.model.Menu" id="menuTree">
+        <id column="pkid" property="pkid"/>
+        <result column="name" property="name"/>
+        <result column="path" property="path"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="icon" property="icon"/>
+        <result column="weight" property="weight"/>
+        <result column="show" property="show"/>
+        <result column="description" property="description"/>
+        <collection property="subMenus" ofType="top.sdaily.web.model.Menu"
+                    column="pkid" select="findChildren">
+        </collection>
+    </resultMap>
+
+    <select id="findTree" resultMap="menuTree">
+        select * from sys_menu WHERE parent_id = 0
     </select>
 
 </mapper>

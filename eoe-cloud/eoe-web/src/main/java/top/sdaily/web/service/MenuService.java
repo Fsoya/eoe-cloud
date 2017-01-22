@@ -1,6 +1,7 @@
 package top.sdaily.web.service;
 
 import top.sdaily.web.dto.UserMenu;
+import top.sdaily.web.model.Menu;
 
 import java.util.List;
 
@@ -9,4 +10,6 @@ import java.util.List;
  */
 public interface MenuService {
     List<UserMenu> getUserMenus(String userId);
+
+    List<Menu> findAll();
 }

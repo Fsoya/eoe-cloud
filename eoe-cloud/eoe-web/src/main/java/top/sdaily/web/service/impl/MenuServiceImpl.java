@@ -24,7 +24,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<UserMenu> getUserMenus(String userId) {
-        List<UserMenu> rootMenus = menuMapper.findUserMenus("0");
+        List<UserMenu> rootMenus = menuMapper.findChildren("0");
         iterateMenus(rootMenus);
 
         return rootMenus;
@@ -32,11 +32,16 @@ public class MenuServiceImpl implements MenuService {
 
     private void iterateMenus(List<UserMenu> baseMenus){
         for (UserMenu menu : baseMenus) {
-            List<UserMenu> list = menuMapper.findUserMenus(menu.getPkid());
+            List<UserMenu> list = menuMapper.findChildren(menu.getPkid());
             if(!CollectionUtils.isEmpty(list)){
                 iterateMenus(list);
                 menu.setUserMenus(list);
             }
         }
+    }
+
+    @Override
+    public List<Menu> findAll() {
+        return menuMapper.findTree();
     }
 }

@@ -1,4 +1,4 @@
-package top.sdaily.web.controller.sys;
+package top.sdaily.web.controller.core;
 
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.ApiOperation;
@@ -42,41 +42,6 @@ public class SecurityController {
         sessionUser.setName(one.getUserName());
 
         List<UserMenu> userMenus = menuService.getUserMenus(one.getPkid());
-
-//        List<Map> menus = new ArrayList<Map>();
-//        Map menu = new HashMap();
-//        menu.put("name","系统管理");
-//
-//        List<Map> subMenus = new ArrayList<Map>();
-//
-//        Map subMenu = new HashMap();
-//        subMenu.put("name","用户管理");
-//        subMenu.put("url","/user");
-//        subMenu.put("badge",6);
-//
-//        List rights = new ArrayList<String>();
-//        rights.add("add");
-//        rights.add("edit");
-//        rights.add("query");
-//        subMenu.put("rights",rights);
-//
-//        Map subMenu1 = new HashMap();
-//        subMenu1.put("name","菜单管理");
-//        subMenu1.put("url","/menu");
-//        subMenu1.put("badge",0);
-//
-//        List rights1 = new ArrayList<String>();
-//        rights1.add("add");
-//        rights1.add("edit");
-//        rights1.add("query");
-//        subMenu1.put("rights",rights1);
-//
-//        subMenus.add(subMenu);
-//        subMenus.add(subMenu1);
-//
-//        menu.put("subMenus",subMenus);
-//
-//        menus.add(menu);
 
         sessionUser.setMenus(userMenus);
 
